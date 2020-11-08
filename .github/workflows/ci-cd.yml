@@ -1,0 +1,146 @@
+name: 'Test, Build and Release'
+
+
+on:
+  push:
+    branches:
+      - master
+      - develop
+      - bug/**
+      - feature/**
+
+
+env:
+  GAME_NAME: breakout-platformer
+  UNITY_VERSION: 2019.3.15f1
+  UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+  UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+  UNITY_SERIAL: ${{ secrets.UNITY_SERIAL }}
+
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        testMode:
+          - playmode
+          - editmode
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          lfs: true
+          submodules: recursive
+
+      - name: Cache
+        uses: actions/cache@v2
+        with:
+          path: Library
+          key: Library-test-${{ env.UNITY_VERSION }}-${{ matrix.targetPlatform }}
+          restore-keys: |
+            Library-test-${{ env.UNITY_VERSION }}-
+            Library-${{ env.UNITY_VERSION }}-
+            Library-test-
+            Library-
+      - name: Run tests
+        uses: webbertakken/unity-test-runner@v1.4
+        with:
+          unityVersion: ${{ env.UNITY_VERSION }}
+          testMode: ${{ matrix.testMode }}
+
+      - name: Upload test report
+        uses: actions/upload-artifact@v2
+        with:
+          name: test-report-${{ matrix.testMode }}
+          path: artifacts
+
+
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        targetPlatform:
+          - WebGL
+          - StandaloneWindows
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          lfs: true
+          submodules: recursive
+
+      - name: Cache
+        uses: actions/cache@v2
+        with:
+          path: Library
+          key: Library-${{ env.UNITY_VERSION }}-${{ matrix.targetPlatform }}
+          restore-keys: |
+            Library-${{ env.UNITY_VERSION }}-
+            Library-test-${{ env.UNITY_VERSION }}-
+            Library-
+            Library-test-
+      - name: Build
+        uses: webbertakken/unity-builder@v1.4
+        with:
+          unityVersion: ${{ env.UNITY_VERSION }}
+          targetPlatform: ${{ matrix.targetPlatform }}
+          buildName: ${{ env.GAME_NAME }}-${{ matrix.targetPlatform }}
+      
+      - name: Group Windows artifacts into a folder
+        if: ${{ matrix.targetPlatform == 'StandaloneWindows' }}
+        run: |
+          mkdir tmp
+          mv build/StandaloneWindows/* tmp/
+          mkdir build/StandaloneWindows/${{ env.GAME_NAME }}-StandaloneWindows
+          mv tmp/* build/StandaloneWindows/${{ env.GAME_NAME }}-StandaloneWindows
+      - name: Upload build artifact to github cache
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ env.GAME_NAME }}-${{ matrix.targetPlatform }}
+          path: build/${{ matrix.targetPlatform }}
+
+
+  release:
+    # only run if both test and build jobs succeeded, and if the branch is either 'master' or 'develop'
+    needs: [test, build]
+    if: ${{ github.ref == 'refs/heads/master' || github.ref == 'refs/heads/develop' }}
+    runs-on: ubuntu-latest
+    env:
+      ITCH_USER: crass-sandwich
+      BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
+
+    strategy:
+      fail-fast: true
+      matrix:
+        include:
+          - builder-name: WebGL
+            itch-name: webgl
+          - builder-name: StandaloneWindows
+            itch-name: win
+
+    steps:
+      - name: Download build artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: ${{ env.GAME_NAME }}-${{ matrix.builder-name }}
+
+      - name: Set the name of the itch.io page to deploy to for master branch
+        if: ${{ github.ref == 'refs/heads/master' }}
+        run: echo "ITCH_GAME=${{ env.GAME_NAME }}" >> $GITHUB_ENV
+
+      - name: Set the name of the itch.io page to deploy to for develop branch
+        if: ${{ github.ref == 'refs/heads/develop' }}
+        run: echo "ITCH_GAME=${{ env.GAME_NAME }}-secret-version" >> $GITHUB_ENV
+
+      - name: Push to itch.io
+        uses: josephbmanley/butler-publish-itchio-action@master
+        env:
+          PACKAGE: ${{ env.GAME_NAME }}-${{ matrix.builder-name }}
+          CHANNEL: ${{ matrix.itch-name }}
