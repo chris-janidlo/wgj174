@@ -3,7 +3,14 @@
     "references": [
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
-        "Drepanoid.Main"
+        "Drepanoid.Main",
+        "MamboJamboStudios.UnityAtomsBaseAtoms.Runtime",
+        "MamboJamboStudios.UnityAtomsCore.Runtime",
+        "MamboJamboStudios.UnityAtomsFSM.Runtime",
+        "MamboJamboStudios.UnityAtomsMonoHooks.Runtime",
+        "MamboJamboStudios.UnityAtomsSceneMgmt.Runtime",
+        "MamboJamboStudios.UnityAtomsTags.Runtime",
+        "MamboJamboStudios.UnityAtomsUI.Runtime"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
