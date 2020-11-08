@@ -1,0 +1,17 @@
+{
+    "name": "Drepanoid.Editor",
+    "references": [
+        "GUID:f9ac6dc93ea4f2b49bf96b8c3013663d"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
