@@ -18,7 +18,7 @@ namespace Drepanoid.Tests.PlayMode
         [TearDown]
         public void TearDown ()
         {
-            Object.Destroy(ball);
+            Object.Destroy(ball.gameObject);
         }
 
         [UnityTest]
@@ -27,6 +27,7 @@ namespace Drepanoid.Tests.PlayMode
             var originalYPos = ball.transform.position.y;
             yield return new WaitForSeconds(1);
             Assert.Less(ball.transform.position.y, originalYPos, "ball should be falling");
+            Assert.Negative(ball.Rigidbody.velocity.y, "ball should be falling");
         }
     }
 }

@@ -46,8 +46,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 775a7d39075b2fe449b59a0b5f8ffb09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BallDidCollide: {fileID: 11400000, guid: 6bcd6fd7b36e01447b2a4736b875afb7, type: 2}
+  MaxSpeed: 30
+  GravityAcceleration: 10
   Rigidbody: {fileID: 189403846009006767}
+  BallDidCollide: {fileID: 11400000, guid: 6bcd6fd7b36e01447b2a4736b875afb7, type: 2}
 --- !u!50 &189403846009006767
 Rigidbody2D:
   serializedVersion: 4

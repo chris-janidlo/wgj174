@@ -31,46 +31,76 @@ namespace Drepanoid.Tests.PlayMode
         [TearDown]
         public void TearDown ()
         {
-            Object.Destroy(ball);
-            Object.Destroy(paddle);
+            Object.Destroy(ball.gameObject);
+            Object.Destroy(paddle.gameObject);
         }
 
         [UnityTest]
         [Timeout(15000)]
         public IEnumerator Ball_ShouldBounceUp_AfterCollidingWithPaddle ()
         {
-            setPaddlePosition(Vector3.down * 10);
-
-            yield return new WaitUntil(() => ballCollided);
-
-            Assert.Positive(ball.Rigidbody.velocity.y, "ball y velocity should be positive");
+            yield return genericCollisionTest
+            (
+                Vector3.down * 10,
+                () => ball.Rigidbody.velocity.y > 0,
+                "ball y velocity should be positive"
+            );
         }
 
         [UnityTest]
         [Timeout(15000)]
         public IEnumerator Ball_ShouldBounceRight_AfterCollidingWithRightSideOfPaddle ()
         {
-            setPaddlePosition(new Vector3(-1, -10));
-
-            yield return new WaitUntil(() => ballCollided);
-
-            Assert.Positive(ball.Rigidbody.velocity.x, "ball x velocity should be positive");
+            yield return genericCollisionTest
+            (
+                new Vector3(-paddle.Collider.bounds.extents.x / 2, -10),
+                () => ball.Rigidbody.velocity.x > 0,
+                "ball x velocity should be positive"
+            );
         }
 
         [UnityTest]
         [Timeout(15000)]
         public IEnumerator Ball_ShouldBounceLeft_AfterCollidingWithLeftSideOfPaddle ()
         {
-            setPaddlePosition(new Vector3(1, -10));
+            yield return genericCollisionTest
+            (
+                new Vector3(paddle.Collider.bounds.extents.x / 2, -10),
+                () => ball.Rigidbody.velocity.x < 0,
+                "ball x velocity should be negative"
+            );
+        }
+
+        [UnityTest]
+        [Timeout(15000)]
+        public IEnumerator Ball_ShouldRetainSpeed_WhenColliding ()
+        {
+            yield return new WaitForSeconds(1); // let ball fall for a bit
+
+            ball.GravityAcceleration = 0;
+            var preCollisionSpeed = ball.Rigidbody.velocity.magnitude;
+
+            setPaddlePosition(ball.transform.position + Vector3.down * preCollisionSpeed); // position paddle so that the ball will hit it in one second
 
             yield return new WaitUntil(() => ballCollided);
+            yield return new WaitForSeconds(.1f);
 
-            Assert.Negative(ball.Rigidbody.velocity.x, "ball x velocity should be negative");
+            Assert.AreEqual(preCollisionSpeed, ball.Rigidbody.velocity.magnitude, "ball should not lose speed in collisions");
+        }
+
+        IEnumerator genericCollisionTest (Vector3 paddleOffsetFromBall, System.Func<bool> assertion, string message)
+        {
+            setPaddlePosition(paddleOffsetFromBall);
+
+            yield return new WaitUntil(() => ballCollided);
+            yield return new WaitForEndOfFrame();
+
+            Assert.That(assertion, message);
         }
 
         void setPaddlePosition (Vector3 offsetFromBall)
         {
-            paddle.transform.position = ball.transform.position + offsetFromBall;
+            paddle.Anchor = ball.transform.position + offsetFromBall;
         }
     }
 }

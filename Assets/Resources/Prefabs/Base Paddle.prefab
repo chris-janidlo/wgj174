@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 932480656167193189}
   - component: {fileID: 400210211209447551}
   - component: {fileID: 3098543338813174780}
-  - component: {fileID: 4974821178401776630}
+  - component: {fileID: 8775305725211757435}
   - component: {fileID: 3494868673595708498}
   m_Layer: 0
   m_Name: Base Paddle
@@ -47,8 +47,46 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 141a9d81f254eeb41854461c97aeb227, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Acceleration: 120
+  RangeOfMotion: 0.5
+  DeflectionAngle: 45
+  BallDeflectionByNormalizedDistanceFromCenter:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: -1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  Rigidbody: {fileID: 3098543338813174780}
+  Collider: {fileID: 8775305725211757435}
   PaddleAxisInput: {fileID: 11400000, guid: 74e604bb5c74283469bf638b29609375, type: 2}
-  RangeOfMotion: 0
+  _anchor: {x: 0, y: 0, z: 0}
 --- !u!114 &400210211209447551
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -93,9 +131,9 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
---- !u!58 &4974821178401776630
-CircleCollider2D:
+  m_Constraints: 6
+--- !u!61 &8775305725211757435
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -108,8 +146,18 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0.049999997, y: 0.049999997, z: 0.049999997, w: 0.049999997}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.16, y: 0.16}
+    newSize: {x: 0.16, y: 0.16}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
   serializedVersion: 2
-  m_Radius: 0.08
+  m_Size: {x: 0.16, y: 0.16}
+  m_EdgeRadius: 0
 --- !u!212 &3494868673595708498
 SpriteRenderer:
   m_ObjectHideFlags: 0
