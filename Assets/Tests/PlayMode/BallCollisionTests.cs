@@ -36,7 +36,7 @@ namespace Drepanoid.Tests.PlayMode
         }
 
         [UnityTest]
-        [Timeout(60000)]
+        [Timeout(15000)]
         public IEnumerator Ball_ShouldBounceUp_AfterCollidingWithPaddle ()
         {
             setPaddlePosition(Vector3.down * 10);
@@ -47,25 +47,25 @@ namespace Drepanoid.Tests.PlayMode
         }
 
         [UnityTest]
-        [Timeout(60000)]
+        [Timeout(15000)]
         public IEnumerator Ball_ShouldBounceRight_AfterCollidingWithRightSideOfPaddle ()
         {
             setPaddlePosition(new Vector3(-1, -10));
 
             yield return new WaitUntil(() => ballCollided);
 
-            Assert.Positive(ball.Rigidbody.velocity.x, "ball x velocity should be negative");
+            Assert.Positive(ball.Rigidbody.velocity.x, "ball x velocity should be positive");
         }
 
         [UnityTest]
-        [Timeout(60000)]
+        [Timeout(15000)]
         public IEnumerator Ball_ShouldBounceLeft_AfterCollidingWithLeftSideOfPaddle ()
         {
             setPaddlePosition(new Vector3(1, -10));
 
             yield return new WaitUntil(() => ballCollided);
 
-            Assert.Negative(ball.Rigidbody.velocity.x, "ball x velocity should be positive");
+            Assert.Negative(ball.Rigidbody.velocity.x, "ball x velocity should be negative");
         }
 
         void setPaddlePosition (Vector3 offsetFromBall)
