@@ -26,6 +26,7 @@ namespace Drepanoid
         public Rigidbody2D Rigidbody;
         public BoxCollider2D Collider;
         public FloatVariable PaddleAxisInput;
+        public LineRenderer RangeOfMotionIndicator;
 
         [SerializeField]
         Vector3 _anchor;
@@ -34,13 +35,24 @@ namespace Drepanoid
             get => _anchor;
             set
             {
+                RangeOfMotionIndicator.transform.parent = transform;
+                RangeOfMotionIndicator.transform.position = Vector3.zero;
+
                 _anchor = value;
                 transform.position = value;
+
+                drawRangeOfMotionIndicator();
+                RangeOfMotionIndicator.transform.parent = null;
             }
         }
 
+        public Vector3 LeftExtent => Anchor + Vector3.left * RangeOfMotion;
+        public Vector3 RightExtent => Anchor + Vector3.right * RangeOfMotion;
+
         void Start ()
         {
+            RangeOfMotionIndicator.transform.parent = null;
+
             Anchor = transform.position;
         }
 
@@ -51,8 +63,8 @@ namespace Drepanoid
                 Rigidbody.velocity = Vector2.zero;
             }
             else if (
-                !((transform.position == Anchor + Vector3.right * RangeOfMotion && PaddleAxisInput.Value > 0) ||
-                (transform.position == Anchor + Vector3.left * RangeOfMotion && PaddleAxisInput.Value < 0))
+                !((transform.position == RightExtent && PaddleAxisInput.Value > 0) ||
+                (transform.position == LeftExtent && PaddleAxisInput.Value < 0))
             ) {
                 Rigidbody.velocity += Vector2.right * PaddleAxisInput.Value * Acceleration * Time.deltaTime;
             }
@@ -87,6 +99,12 @@ namespace Drepanoid
             {
                 return Vector2.Lerp(centerVector, rightVector, deflection);
             }
+        }
+
+        void drawRangeOfMotionIndicator ()
+        {
+            RangeOfMotionIndicator.positionCount = 2;
+            RangeOfMotionIndicator.SetPositions(new Vector3[] { LeftExtent, RightExtent });
         }
 
         Vector2 deflectionVectorByAngle (float angle)
