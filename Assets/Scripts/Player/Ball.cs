@@ -11,9 +11,23 @@ namespace Drepanoid
         public float GravityAcceleration;
 
         public Rigidbody2D Rigidbody;
-        public VoidEvent BallDidCollide;
+
+        public Vector2Variable BallPosition;
+        public VoidEvent BallDidCollide, BallDidSpawn, BallWillDie, BallDidDie;
 
         Vector2 cachedVelocity;
+
+        int shouldDie;
+
+        void Start ()
+        {
+            BallDidSpawn.Raise();
+        }
+
+        void Update ()
+        {
+            BallPosition.Value= transform.position;
+        }
 
         void FixedUpdate ()
         {
@@ -38,6 +52,16 @@ namespace Drepanoid
             {
                 Rigidbody.velocity = Vector2.Reflect(cachedVelocity, contact.normal);
             }
+        }
+
+        public void OnBallShouldDie ()
+        {
+            BallWillDie.Raise();
+
+            // this is where you'd play any animations
+
+            Destroy(gameObject);
+            BallDidDie.Raise();
         }
     }
 }

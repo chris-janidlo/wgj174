@@ -9,15 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b46c0f62c93543f88d3eb693740d091, type: 3}
-  m_Name: Paddle Axis Input
+  m_Script: {fileID: 11500000, guid: f76a04b727336433cb49bbba3dbe9175, type: 3}
+  m_Name: Ball Position
   m_EditorClassIdentifier: 
-  _developerDescription: Global input value shared by all paddles. Positive values
-    move them to the right, negative to the left.
+  _developerDescription: The current position of the ball, in world space.
   _id: 
-  _value: 0
-  Changed: {fileID: 0}
+  _value: {x: 0, y: 0}
+  Changed: {fileID: 11400000, guid: 337985fa6f438964cadc2f5734a9a557, type: 2}
   ChangedWithHistory: {fileID: 0}
-  _oldValue: 0
-  _initialValue: 0
+  _oldValue: {x: 0, y: 0}
+  _initialValue: {x: 0, y: 0}
   _preChangeTransformers: []

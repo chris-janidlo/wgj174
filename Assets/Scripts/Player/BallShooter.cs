@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityAtoms.BaseAtoms;
 using UnityEngine;
 
 namespace Drepanoid
@@ -11,14 +12,20 @@ namespace Drepanoid
 
         public Ball BallPrefab;
 
-        IEnumerator Start ()
+        void Start ()
         {
-            yield return new WaitForSeconds(1);
-            Shoot();
+            StartCoroutine(shootRoutine());
+        }
+        
+        public void OnBallDidDie ()
+        {
+            StartCoroutine(shootRoutine());
         }
 
-        public void Shoot ()
+        IEnumerator shootRoutine ()
         {
+            yield return new WaitForSeconds(1);
+
             var ball = Instantiate(BallPrefab, transform.position, Quaternion.identity);
             ball.Rigidbody.velocity = transform.up * (UseBallMaxSpeed ? ball.MaxSpeed : Speed);
         }

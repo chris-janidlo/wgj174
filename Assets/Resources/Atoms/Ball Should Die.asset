@@ -10,7 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 04d35e2eb934747da9d77a3af62bb8ca, type: 3}
-  m_Name: Ball Did Collide
+  m_Name: Ball Should Die
   m_EditorClassIdentifier: 
-  _developerDescription: This is raised every time the ball collides with something.
+  _developerDescription: This is raised when the ball needs to respond to something
+    that should kill it. In other words, raise this to kill the ball.
   _replayBufferSize: 0

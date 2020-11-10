@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 189403846009006767}
   - component: {fileID: 3483849871563288382}
   - component: {fileID: 3773053431419691624}
+  - component: {fileID: -5138227377067162705}
   m_Layer: 0
   m_Name: Base Ball
   m_TagString: Untagged
@@ -49,7 +50,11 @@ MonoBehaviour:
   MaxSpeed: 30
   GravityAcceleration: 10
   Rigidbody: {fileID: 189403846009006767}
+  BallPosition: {fileID: 11400000, guid: 28c831c351ace4142b7b120cb06115e3, type: 2}
   BallDidCollide: {fileID: 11400000, guid: 6bcd6fd7b36e01447b2a4736b875afb7, type: 2}
+  BallDidSpawn: {fileID: 11400000, guid: adeb0ea8655e0a5429a7361293cc1ddb, type: 2}
+  BallWillDie: {fileID: 11400000, guid: 60453802695b78b459657a742b46022b, type: 2}
+  BallDidDie: {fileID: 11400000, guid: ebdde41e74ff50c4ca7758fd9f7e5472, type: 2}
 --- !u!50 &189403846009006767
 Rigidbody2D:
   serializedVersion: 4
@@ -137,3 +142,40 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &-5138227377067162705
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1371662728571575373}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2458933140c54c9db0aec7a69c1b617, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _developerDescription: 
+  _unityEventResponse:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8243342135205649264}
+        m_MethodName: OnBallShouldDie
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  _actionResponses: []
+  _replayEventBufferOnRegister: 1
+  _eventReference:
+    _usage: 0
+    _event: {fileID: 11400000, guid: 9945f27039ff58643b73b3b5d3f7f197, type: 2}
+    _eventInstancer: {fileID: 0}
+    _collection: {fileID: 0}
+    _list: {fileID: 0}
+    _collectionInstancer: {fileID: 0}
+    _listInstancer: {fileID: 0}
