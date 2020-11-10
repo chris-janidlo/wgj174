@@ -73,19 +73,37 @@ namespace Drepanoid.Tests.PlayMode
 
         [UnityTest]
         [Timeout(15000)]
-        public IEnumerator Ball_ShouldRetainSpeed_WhenColliding ()
+        public IEnumerator BallSpeed_ShouldBePaddleBounceSpeed_AfterPaddleCollision ()
+        {
+            yield return genericCollisionTest
+            (
+                Vector3.down * 10,
+                () => ball.Rigidbody.velocity.magnitude == paddle.BounceSpeed,
+                "ball speed should be paddle's bounce speed"
+            );
+        }
+
+        [UnityTest]
+        [Timeout(15000)]
+        public IEnumerator Ball_ShouldRetainSpeed_WhenCollidingWithAnythingButAPaddle ()
         {
             yield return new WaitForSeconds(1); // let ball fall for a bit
 
             ball.GravityAcceleration = 0;
             var preCollisionSpeed = ball.Rigidbody.velocity.magnitude;
 
-            setPaddlePosition(ball.transform.position + Vector3.down * preCollisionSpeed); // position paddle so that the ball will hit it in one second
+            // use wall since paddle introduces bounce speed
+            var wall = new GameObject("wall");
+            wall.transform.position = ball.transform.position + Vector3.down * preCollisionSpeed; // positioned so that the ball will hit it in ~one second
+            var wallCollider = wall.AddComponent<BoxCollider2D>();
+            wallCollider.size = new Vector2(10, 2);
 
             yield return new WaitUntil(() => ballCollided);
             yield return new WaitForSeconds(.1f);
 
-            Assert.AreEqual(preCollisionSpeed, ball.Rigidbody.velocity.magnitude, "ball should not lose speed in collisions");
+            Assert.AreEqual(preCollisionSpeed, ball.Rigidbody.velocity.magnitude, "ball should not lose speed in non-paddle collisions");
+
+            Object.Destroy(wall.gameObject);
         }
 
         IEnumerator genericCollisionTest (Vector3 paddleOffsetFromBall, System.Func<bool> assertion, string message)

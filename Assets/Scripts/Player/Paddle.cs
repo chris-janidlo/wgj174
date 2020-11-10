@@ -9,6 +9,7 @@ namespace Drepanoid
 {
     public class Paddle : MonoBehaviour
     {
+        public float BounceSpeed = 10;
         public float Acceleration = 120;
         public float RangeOfMotion = 1;
 
@@ -75,6 +76,12 @@ namespace Drepanoid
                 transform.position.y,
                 transform.position.z
             );
+        }
+
+        void OnDestroy ()
+        {
+            if (RangeOfMotionIndicator != null)
+                Destroy(RangeOfMotionIndicator.gameObject);
         }
 
         // assumes paddle is an axis-aligned box

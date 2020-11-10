@@ -32,11 +32,11 @@ namespace Drepanoid
 
             if (contact.normal == Vector2.up && potentialPaddle != null)
             {
-                Rigidbody.velocity = potentialPaddle.GetDeflectionVector(contact.point.x) * cachedVelocity.magnitude;
+                Rigidbody.velocity = potentialPaddle.GetDeflectionVector(contact.point.x) * potentialPaddle.BounceSpeed;
             }
             else
             {
-                Rigidbody.velocity = Vector2.Reflect(cachedVelocity, contact.normal).normalized;
+                Rigidbody.velocity = Vector2.Reflect(cachedVelocity, contact.normal);
             }
         }
     }
