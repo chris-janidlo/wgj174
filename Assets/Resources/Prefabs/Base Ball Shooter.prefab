@@ -47,7 +47,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UseBallMaxSpeed: 0
-  Speed: 10
+  Speed: 20
+  Delay: 0.5
   BallPrefab: {fileID: 8243342135205649264, guid: 5c7f0b8c6654ec046b5f21932584c37c,
     type: 3}
 --- !u!212 &3058695534545926284

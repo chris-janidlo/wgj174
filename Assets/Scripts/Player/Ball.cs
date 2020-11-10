@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityAtoms.BaseAtoms;
 using UnityEngine;
 
@@ -8,7 +9,9 @@ namespace Drepanoid
     public class Ball : MonoBehaviour
     {
         public float MaxSpeed;
-        public float GravityAcceleration;
+        public float BaseGravityAcceleration;
+
+        public AnimationCurve AdditionalGravityFromPaddlesByDistanceToNearestPaddle;
 
         public Rigidbody2D Rigidbody;
 
@@ -31,7 +34,7 @@ namespace Drepanoid
 
         void FixedUpdate ()
         {
-            Rigidbody.velocity += Vector2.down * GravityAcceleration * Time.deltaTime;
+            Rigidbody.velocity += Vector2.down * calculateGravity() * Time.deltaTime;
             Rigidbody.velocity = Vector2.ClampMagnitude(Rigidbody.velocity, MaxSpeed);
 
             cachedVelocity = Rigidbody.velocity;
@@ -62,6 +65,28 @@ namespace Drepanoid
 
             Destroy(gameObject);
             BallDidDie.Raise();
+        }
+
+        float calculateGravity ()
+        {
+            if (Rigidbody.velocity.y > 0)
+            {
+                // paddles only affect gravity on the down swing
+                return BaseGravityAcceleration;
+            }
+
+            float gravity = BaseGravityAcceleration;
+
+            var hit = Physics2D.Raycast(transform.position, Vector2.down);
+            var paddle = hit.transform?.GetComponent<Paddle>();
+
+            if (paddle != null)
+            {
+                var distance = Vector2.Distance(transform.position, paddle.transform.position);
+                gravity += AdditionalGravityFromPaddlesByDistanceToNearestPaddle.Evaluate(distance);
+            }
+
+            return gravity;
         }
     }
 }

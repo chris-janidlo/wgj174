@@ -48,10 +48,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 141a9d81f254eeb41854461c97aeb227, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BounceSpeed: 10
+  BounceSpeed: 13
   Acceleration: 120
   RangeOfMotion: 2
-  DeflectionAngle: 45
+  DeflectionAngle: 25
   BallDeflectionByNormalizedDistanceFromCenter:
     serializedVersion: 2
     m_Curve:
@@ -59,28 +59,46 @@ MonoBehaviour:
       time: -1
       value: 1
       inSlope: 0
-      outSlope: 0
-      tangentMode: 0
+      outSlope: -1.3133334
+      tangentMode: 69
       weightedMode: 0
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
+      time: -0.25
+      value: 0.015
+      inSlope: -1.3133334
+      outSlope: -0.04
+      tangentMode: 69
       weightedMode: 0
-      inWeight: 0
-      outWeight: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0
+      value: 0.005
+      inSlope: -0.04
+      outSlope: 0.04
+      tangentMode: 69
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.25
+      value: 0.015
+      inSlope: 0.04
+      outSlope: 1.3133334
+      tangentMode: 69
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
     - serializedVersion: 3
       time: 1
       value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
+      inSlope: 1.3133334
+      outSlope: 1.3133334
+      tangentMode: 34
       weightedMode: 0
-      inWeight: 0
+      inWeight: 0.33333334
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -126,14 +144,14 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 100
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 6
 --- !u!61 &8775305725211757435
 BoxCollider2D:

@@ -10,6 +10,8 @@ namespace Drepanoid
         public bool UseBallMaxSpeed;
         public float Speed;
 
+        public float Delay;
+
         public Ball BallPrefab;
 
         void Start ()
@@ -24,7 +26,7 @@ namespace Drepanoid
 
         IEnumerator shootRoutine ()
         {
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(Delay);
 
             var ball = Instantiate(BallPrefab, transform.position, Quaternion.identity);
             ball.Rigidbody.velocity = transform.up * (UseBallMaxSpeed ? ball.MaxSpeed : Speed);
