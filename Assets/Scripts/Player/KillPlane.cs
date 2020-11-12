@@ -9,9 +9,9 @@ namespace Drepanoid
     {
         public VoidEvent BallShouldDie;
 
-        public void OnBallPositionDidChange (Vector2 ballPosition)
+        void OnCollisionEnter2D (Collision2D collision)
         {
-            if (ballPosition.y < transform.position.y)
+            if (collision.gameObject.GetComponent<Ball>() != null)
             {
                 BallShouldDie.Raise();
             }

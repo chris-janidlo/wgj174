@@ -59,15 +59,19 @@ namespace Drepanoid
 
         void Update ()
         {
-            if (PaddleAxisInput.Value == 0)
+            float input = PaddleAxisInput.Value;
+
+            if (input == 0 || Mathf.Sign(input) != Mathf.Sign(Rigidbody.velocity.x))
             {
                 Rigidbody.velocity = Vector2.zero;
             }
-            else if (
-                !((transform.position == RightExtent && PaddleAxisInput.Value > 0) ||
-                (transform.position == LeftExtent && PaddleAxisInput.Value < 0))
-            ) {
-                Rigidbody.velocity += Vector2.right * PaddleAxisInput.Value * Acceleration * Time.deltaTime;
+
+            if (
+                !((transform.position == RightExtent && input > 0) ||
+                (transform.position == LeftExtent && input < 0))
+            )
+            {
+                Rigidbody.velocity += Vector2.right * input * Acceleration * Time.deltaTime;
             }
 
             transform.position = new Vector3
@@ -100,7 +104,7 @@ namespace Drepanoid
 
             if (normalizedCollisionX < 0)
             {
-                return Vector2.Lerp(leftVector, centerVector, -deflection);
+                return Vector2.Lerp(centerVector, leftVector, deflection);
             }
             else
             {

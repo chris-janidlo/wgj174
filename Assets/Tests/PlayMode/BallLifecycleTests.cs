@@ -13,7 +13,7 @@ namespace Drepanoid.Tests.PlayMode
         KillPlane killPlane;
 
         Vector2Variable ballPosition;
-        bool ballDidSpawn, ballWillDie, ballDidDie;
+        bool ballDidSpawn, ballShouldDie, ballWillDie, ballDidDie;
 
         [SetUp]
         public void SetUp ()
@@ -28,6 +28,9 @@ namespace Drepanoid.Tests.PlayMode
 
             ballDidSpawn = false;
             Resources.Load<VoidEvent>("Atoms/Ball Did Spawn").Register(() => ballDidSpawn = true);
+
+            ballShouldDie = false;
+            Resources.Load<VoidEvent>("Atoms/Ball Should Die").Register(() => ballShouldDie = true);
 
             ballWillDie = false;
             Resources.Load<VoidEvent>("Atoms/Ball Will Die").Register(() => ballWillDie = true);
@@ -63,9 +66,9 @@ namespace Drepanoid.Tests.PlayMode
 
         [UnityTest]
         [Timeout(15000)]
-        public IEnumerator Ball_ShouldDie_AfterFallingInPit ()
+        public IEnumerator Ball_ShouldDie_AfterShouldDieIsRaised ()
         {
-            yield return new WaitUntil(() => ballPosition.Value.y < killPlane.transform.position.y);
+            yield return new WaitUntil(() => ballShouldDie);
             yield return new WaitForEndOfFrame();
 
             Assert.True(ballWillDie, "ball should be at least on track to dying, if not already dead");

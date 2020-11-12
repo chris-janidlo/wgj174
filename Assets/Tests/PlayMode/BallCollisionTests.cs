@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using System.Collections;
+using UnityAtoms;
 using UnityEngine;
 using UnityEngine.TestTools;
 
@@ -67,8 +68,35 @@ namespace Drepanoid.Tests.PlayMode
         public IEnumerator BallSpeed_ShouldBePaddleBounceSpeed_AfterPaddleCollision ()
         {
             yield return movePaddleAndWaitForCollision(Vector3.down * 10);
-            
-            Assert.AreEqual(paddle.BounceSpeed, ball.Rigidbody.velocity.magnitude, "ball speed should be paddle's bounce speed");
+
+            Assert.That(ball.Rigidbody.velocity.magnitude, Is.EqualTo(paddle.BounceSpeed).Within(0.1).Percent, "ball speed should be paddle's bounce speed");
+        }
+
+        static readonly float[] paddleOffsetValues = new float[] { 0.01f, 0.3f, 0.6f, 1 };
+
+        [UnityTest]
+        [Timeout(15000)]
+        public IEnumerator Ball_ShouldBounceAtSameDeflectionAngle_WhenHittingLeftOrRightSide ([ValueSource("paddleOffsetValues")] float paddleOffset)
+        {
+            float absoluteOffset = paddle.Collider.bounds.extents.x * paddleOffset;
+
+            ball.transform.position = Vector3.zero;
+            ball.Rigidbody.velocity = Vector3.zero;
+
+            yield return movePaddleAndWaitForCollision(new Vector3(-absoluteOffset, -10, 0));
+
+            Vector3 leftExitVelocity = ball.Rigidbody.velocity;
+
+            ball.transform.position = Vector3.zero;
+            ball.Rigidbody.velocity = Vector3.zero;
+
+            ballCollided = false;
+            yield return movePaddleAndWaitForCollision(new Vector3(absoluteOffset, -10, 0));
+
+            Vector3 rightExitVelocity = ball.Rigidbody.velocity;
+
+            Assert.That(leftExitVelocity.y, Is.EqualTo(rightExitVelocity.y).Within(0.01).Percent, "ball should exit from both sides at the same y velocity");
+            Assert.That(leftExitVelocity.x, Is.EqualTo(-rightExitVelocity.x).Within(0.01).Percent, "ball x velocity should be mirrored when comparing right and left");
         }
 
         [UnityTest]

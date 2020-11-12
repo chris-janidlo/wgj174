@@ -54,9 +54,28 @@ namespace Drepanoid.Tests.PlayMode
             }
         }
 
+        static readonly int[] inputDirectionValues = new int[] { -1, 1 };
+
+        [UnityTest]
+        //[Timeout(15000)]
+        public IEnumerator Paddle_ShouldInstantlyChangeVelocityDirection_WhenInputChanges ([ValueSource("inputDirectionValues")] int initialInputdirection)
+        {
+            var paddle = createPaddle();
+
+            paddleAxisInput.Value = initialInputdirection;
+            
+            yield return new WaitForEndOfFrame();
+            yield return new WaitForEndOfFrame();
+
+            paddleAxisInput.Value = -initialInputdirection;
+
+            yield return new WaitForEndOfFrame();
+
+            Assert.That(Mathf.Sign(paddle.Rigidbody.velocity.x), Is.Not.EqualTo(Mathf.Sign(initialInputdirection)), "the direction of the paddle's velocity should have changed by now");
+        }
+
         static readonly float[] rangeOfMotionValues = new float[] { 1, 2, 2.5f, 13.7f };
         static readonly float[] accelerationValues = new float[] { 120, 100000 };
-        static readonly int[] inputDirectionValues = new int[] { -1, 1 };
 
         [UnityTest]
         [Timeout(15000)]
