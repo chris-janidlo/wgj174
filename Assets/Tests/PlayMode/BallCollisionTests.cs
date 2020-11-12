@@ -37,6 +37,7 @@ namespace Drepanoid.Tests.PlayMode
         }
 
         [UnityTest]
+        [Timeout(15000)]
         public IEnumerator Ball_ShouldBounceUp_AfterCollidingWithPaddle ()
         {
             yield return movePaddleAndWaitForCollision(Vector3.down * 10);
@@ -45,6 +46,7 @@ namespace Drepanoid.Tests.PlayMode
         }
 
         [UnityTest]
+        [Timeout(15000)]
         public IEnumerator Ball_ShouldBounceRight_AfterCollidingWithRightSideOfPaddle ()
         {
             yield return movePaddleAndWaitForCollision(new Vector3(-paddle.Collider.bounds.extents.x / 2, -10));
@@ -53,6 +55,7 @@ namespace Drepanoid.Tests.PlayMode
         }
 
         [UnityTest]
+        [Timeout(15000)]
         public IEnumerator Ball_ShouldBounceLeft_AfterCollidingWithLeftSideOfPaddle ()
         {
             yield return movePaddleAndWaitForCollision(new Vector3(paddle.Collider.bounds.extents.x / 2, -10));
@@ -61,6 +64,7 @@ namespace Drepanoid.Tests.PlayMode
         }
 
         [UnityTest]
+        [Timeout(15000)]
         public IEnumerator BallSpeed_ShouldBePaddleBounceSpeed_AfterPaddleCollision ()
         {
             yield return movePaddleAndWaitForCollision(Vector3.down * 10);
@@ -71,6 +75,7 @@ namespace Drepanoid.Tests.PlayMode
         static readonly float[] paddleOffsetValues = new float[] { 0.01f, 0.3f, 0.6f, 1 };
 
         [UnityTest]
+        [Timeout(15000)]
         public IEnumerator Ball_ShouldBounceAtSameDeflectionAngle_WhenHittingLeftOrRightSide ([ValueSource("paddleOffsetValues")] float paddleOffset)
         {
             float absoluteOffset = paddle.Collider.bounds.extents.x * paddleOffset;
@@ -95,6 +100,7 @@ namespace Drepanoid.Tests.PlayMode
         }
 
         [UnityTest]
+        [Timeout(15000)]
         public IEnumerator Ball_ShouldRetainSpeed_WhenCollidingWithAnythingButAPaddle ()
         {
             yield return new WaitForSeconds(1); // let ball fall for a bit

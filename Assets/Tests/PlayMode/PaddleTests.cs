@@ -57,6 +57,7 @@ namespace Drepanoid.Tests.PlayMode
         static readonly int[] inputDirectionValues = new int[] { -1, 1 };
 
         [UnityTest]
+        //[Timeout(15000)]
         public IEnumerator Paddle_ShouldInstantlyChangeVelocityDirection_WhenInputChanges ([ValueSource("inputDirectionValues")] int initialInputdirection)
         {
             var paddle = createPaddle();
@@ -77,6 +78,7 @@ namespace Drepanoid.Tests.PlayMode
         static readonly float[] accelerationValues = new float[] { 120, 100000 };
 
         [UnityTest]
+        [Timeout(15000)]
         public IEnumerator Paddle_ShouldStayWithinRangeOfMotion_WhenMoving (
             [ValueSource("rangeOfMotionValues")] float rangeOfMotion,
             [ValueSource("accelerationValues")] float acceleration,
