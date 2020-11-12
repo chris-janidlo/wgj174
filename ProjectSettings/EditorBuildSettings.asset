@@ -9,8 +9,17 @@ EditorBuildSettings:
     path: Assets/Scenes/Main Menu.unity
     guid: 99c9720ab356a0642a771bea13969a05
   - enabled: 1
-    path: Assets/Scenes/Levels/Level 1.unity
+    path: Assets/Scenes/Levels/_ Tutorial.unity
     guid: 9dcdf55a01fad5a408da870c88c51d39
+  - enabled: 1
+    path: Assets/Scenes/Levels/Left to Right.unity
+    guid: 34a74572fab9cb149a376b5677309b48
+  - enabled: 1
+    path: Assets/Scenes/Levels/Skip.unity
+    guid: a10a941c805b5f541bb91309198cb97e
+  - enabled: 1
+    path: Assets/Scenes/Levels/Getting Over It.unity
+    guid: 55170bc7485ddbc4ba922832f29c4c1e
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: fc64a342bfbd05c419bbc3c6d193ac50,
       type: 2}

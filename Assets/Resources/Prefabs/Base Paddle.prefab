@@ -51,7 +51,7 @@ MonoBehaviour:
   BounceSpeed: 13
   Acceleration: 120
   RangeOfMotion: 2
-  DeflectionAngle: 25
+  DeflectionAngle: 35
   BallDeflectionByNormalizedDistanceFromCenter:
     serializedVersion: 2
     m_Curve:
