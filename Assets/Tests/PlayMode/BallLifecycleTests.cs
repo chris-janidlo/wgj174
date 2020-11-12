@@ -69,7 +69,7 @@ namespace Drepanoid.Tests.PlayMode
         public IEnumerator Ball_ShouldDie_AfterShouldDieIsRaised ()
         {
             yield return new WaitUntil(() => ballShouldDie);
-            yield return new WaitForEndOfFrame();
+            yield return null;
 
             Assert.True(ballWillDie, "ball should be at least on track to dying, if not already dead");
 
