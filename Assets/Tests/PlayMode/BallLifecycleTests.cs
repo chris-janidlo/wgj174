@@ -57,7 +57,6 @@ namespace Drepanoid.Tests.PlayMode
         }
 
         [UnityTest]
-        [Timeout(15000)]
         public IEnumerator Shooter_ShouldSpawnBall_Eventually ()
         {
             yield return new WaitUntil(() => ballDidSpawn);
@@ -65,7 +64,6 @@ namespace Drepanoid.Tests.PlayMode
         }
 
         [UnityTest]
-        [Timeout(15000)]
         public IEnumerator Ball_ShouldDie_AfterShouldDieIsRaised ()
         {
             yield return new WaitUntil(() => ballShouldDie);
@@ -78,7 +76,6 @@ namespace Drepanoid.Tests.PlayMode
         }
 
         [UnityTest]
-        [Timeout(15000)]
         public IEnumerator Ball_ShouldRespawn_AfterDying ()
         {
             yield return new WaitUntil(() => ballDidDie);
