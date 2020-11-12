@@ -53,6 +53,7 @@ jobs:
           testMode: ${{ matrix.testMode }}
 
       - name: Upload test report
+        if: ${{ success() || failure() }}
         uses: actions/upload-artifact@v2
         with:
           name: test-report-${{ matrix.testMode }}
