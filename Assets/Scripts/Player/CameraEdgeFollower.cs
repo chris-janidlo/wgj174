@@ -5,7 +5,6 @@ using UnityEngine;
 
 namespace Drepanoid
 {
-    // TODO: this is super buggy
     public class CameraEdgeFollower : MonoBehaviour
     {
         public Vector2Variable TargetPosition;
@@ -25,11 +24,14 @@ namespace Drepanoid
             EdgeThickness.x * cameraPixelDimensions.x / 2,
             EdgeThickness.y * cameraPixelDimensions.y / 2
         );
+        
+        // assumes camera is at a negative z position
+        Vector2 cameraExtentsInWorldSpace =>
+            Camera.ScreenToWorldPoint(new Vector3(cameraPixelDimensions.x, cameraPixelDimensions.y, -transform.position.z)) -           // top right of camera, at z position 0, in world space
+            Camera.ScreenToWorldPoint(new Vector3(cameraPixelDimensions.x / 2, cameraPixelDimensions.y / 2, -transform.position.z));    // middle of camera, at z position 0, in world space
 
-        Vector2 bottomLeftMoveLimit =>
-            BottomLeftBoundary.transform.position + transform.position - Camera.ScreenToWorldPoint(Vector2.zero);
-        Vector2 topRightMoveLimit =>
-            TopRightBoundary.transform.position - transform.position + Camera.ScreenToWorldPoint(cameraPixelDimensions);
+        Vector2 bottomLeftMoveLimit => (Vector2) BottomLeftBoundary.transform.position + cameraExtentsInWorldSpace;
+        Vector2 topRightMoveLimit => (Vector2) TopRightBoundary.transform.position - cameraExtentsInWorldSpace;
 
         bool chasing;
 
@@ -45,12 +47,7 @@ namespace Drepanoid
                 track();
             }
 
-            transform.position = new Vector3
-            (
-                Mathf.Clamp(transform.position.x, bottomLeftMoveLimit.x, topRightMoveLimit.x),
-                Mathf.Clamp(transform.position.y, bottomLeftMoveLimit.y, topRightMoveLimit.y),
-                transform.position.z
-            );
+            clampToBoundaries();
 
             targetPreviousPosition = TargetPosition.Value;
         }
@@ -68,6 +65,14 @@ namespace Drepanoid
                 targetScreenPos.y < chaseLowerBounds.y || targetScreenPos.y > chaseUpperBounds.y);
         }
 
+        bool onBoundary ()
+        {
+            // TODO: could be improved by taking movement room into account
+            return
+                (transform.position.x == bottomLeftMoveLimit.x || transform.position.x == topRightMoveLimit.x) &&
+                (transform.position.y == bottomLeftMoveLimit.x || transform.position.y == topRightMoveLimit.y);
+        }
+
         void chase ()
         {
             var newPos = Vector2.SmoothDamp(transform.position, TargetPosition.Value, ref chaseVelocity, ChaseTime);
@@ -77,31 +82,43 @@ namespace Drepanoid
         void track ()
         {
             var targetDelta = TargetPosition.Value - targetPreviousPosition;
+
             var targetScreenPos = Camera.WorldToScreenPoint(TargetPosition.Value);
+            var previousTargetScreenPos = Camera.WorldToScreenPoint(targetPreviousPosition);
 
             Vector3 cameraDelta = new Vector3
             (
-                trackOnAxis(targetDelta.x, targetScreenPos.x, edgeThicknessPixels.x, cameraPixelDimensions.x),
-                trackOnAxis(targetDelta.y, targetScreenPos.y, edgeThicknessPixels.y, cameraPixelDimensions.y)
+                trackOnAxis(targetDelta.x, targetScreenPos.x, previousTargetScreenPos.x, edgeThicknessPixels.x, cameraPixelDimensions.x),
+                trackOnAxis(targetDelta.y, targetScreenPos.y, previousTargetScreenPos.y, edgeThicknessPixels.y, cameraPixelDimensions.y)
             );
 
             transform.position += cameraDelta;
         }
 
-        bool onBoundary ()
+        float trackOnAxis (float worldDelta, float currentScreenPos, float previousScreenPos, float edgePixels, float camPixelDimension)
         {
-            return
-                (transform.position.x == bottomLeftMoveLimit.x || transform.position.x == topRightMoveLimit.x) &&
-                (transform.position.y == bottomLeftMoveLimit.x || transform.position.y == topRightMoveLimit.y);
+            float low = edgePixels, high = camPixelDimension - edgePixels;
+
+            bool shouldTrack =
+                (worldDelta < 0 && currentScreenPos <= low && previousScreenPos <= low) ||
+                (worldDelta > 0 && currentScreenPos >= high && previousScreenPos >= high);
+
+            return shouldTrack ? worldDelta : 0;
         }
 
-        float trackOnAxis (float delta, float screenPos, float edgePixels, float camPixelDimension)
+        void clampToBoundaries ()
         {
-            bool shouldTrack =
-                (delta < 0 && screenPos <= edgePixels) ||
-                (delta > 0 && screenPos >= camPixelDimension - edgePixels);
+            bool noRoomX = bottomLeftMoveLimit.x >= topRightMoveLimit.x;
+            bool noRoomY = bottomLeftMoveLimit.y >= topRightMoveLimit.y;
 
-            return shouldTrack ? delta : 0;
+            var boundaryCenter = (BottomLeftBoundary.transform.position + TopRightBoundary.transform.position) / 2;
+
+            transform.position = new Vector3
+            (
+                noRoomX ? boundaryCenter.x : Mathf.Clamp(transform.position.x, bottomLeftMoveLimit.x, topRightMoveLimit.x),
+                noRoomY ? boundaryCenter.y : Mathf.Clamp(transform.position.y, bottomLeftMoveLimit.y, topRightMoveLimit.y),
+                transform.position.z
+            );
         }
     }
 }

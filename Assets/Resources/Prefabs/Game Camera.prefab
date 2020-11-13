@@ -47,7 +47,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TargetPosition: {fileID: 11400000, guid: 28c831c351ace4142b7b120cb06115e3, type: 2}
   ChaseTime: 0.5
-  EdgeThickness: {x: 0.3, y: 0.3}
+  EdgeThickness: {x: 0.5, y: 0.5}
   BottomLeftBoundary: {fileID: 0}
   TopRightBoundary: {fileID: 0}
   Camera: {fileID: 2377752557823043164}
