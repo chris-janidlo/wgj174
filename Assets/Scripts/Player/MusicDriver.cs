@@ -9,16 +9,20 @@ namespace Drepanoid
     public class MusicDriver : Singleton<MusicDriver>
     {
         [Header("Ball")]
-        public VoidEvent BallDidCollide;
-        public AnimationCurve BallFalloff;
-        public AudioSource BallSource;
+        public AudioSource TimingSource;
+        public int BPM;
+        public List<AudioSource> BallChordPlayers;
+        public List<AudioClip> ChordToPlayByCurrentBar;
 
         [Header("Paddle")]
         public FloatVariable PaddleAxisInput;
         public AnimationCurve PaddleFalloff;
         public AudioSource PaddleSource;
 
-        float ballTimer, paddleTimer;
+        int currentBar => Mathf.FloorToInt(TimingSource.time * BPM / 60 / 4);
+
+        float paddleTimer;
+        int ballChordPlayerLooper;
 
         void Awake ()
         {
@@ -27,22 +31,18 @@ namespace Drepanoid
 
         void Start ()
         {
-            ballTimer = BallFalloff.keys[BallFalloff.keys.Length - 1].time;
             paddleTimer = PaddleFalloff.keys[PaddleFalloff.keys.Length - 1].time;
-
-            BallDidCollide.Register(() => ballTimer = 0);
         }
 
         void Update ()
         {
-            updateBallAudio();
             updatePaddleAudio();
         }
 
-        void updateBallAudio ()
+        public void OnBallDidCollide ()
         {
-            ballTimer += Time.deltaTime;
-            BallSource.volume = BallFalloff.Evaluate(ballTimer);
+            BallChordPlayers[ballChordPlayerLooper].PlayOneShot(ChordToPlayByCurrentBar[currentBar]);
+            ballChordPlayerLooper = (ballChordPlayerLooper + 1) % BallChordPlayers.Count;
         }
 
         void updatePaddleAudio ()
