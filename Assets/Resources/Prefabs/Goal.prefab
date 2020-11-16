@@ -46,6 +46,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af41ff209827e474597a284c198e2460, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TimeScaleByDistanceFromCollider:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.01
+      inSlope: 0.4920065
+      outSlope: 0.4920065
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.04979675
+    - serializedVersion: 3
+      time: 3
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  Delay: 1
+  BallPosition: {fileID: 11400000, guid: 28c831c351ace4142b7b120cb06115e3, type: 2}
   BallReachedGoal:
     m_PersistentCalls:
       m_Calls:
@@ -60,6 +86,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  Collider: {fileID: 6885274270361991418}
 --- !u!114 &7935748290071011528
 MonoBehaviour:
   m_ObjectHideFlags: 0
