@@ -10,9 +10,11 @@ GameObject:
   m_Component:
   - component: {fileID: 2377752557823043165}
   - component: {fileID: 2273169569523817086}
+  - component: {fileID: 1670337941166956163}
   - component: {fileID: 2377752557823043164}
-  - component: {fileID: 2377752557823043155}
   - component: {fileID: 7035458977030781622}
+  - component: {fileID: 2377752557823043155}
+  - component: {fileID: 1401620598884180399}
   m_Layer: 0
   m_Name: Game Camera
   m_TagString: MainCamera
@@ -52,6 +54,75 @@ MonoBehaviour:
   BottomLeftBoundary: {fileID: 0}
   TopRightBoundary: {fileID: 0}
   Camera: {fileID: 2377752557823043164}
+--- !u!114 &1670337941166956163
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2377752557823043154}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7fb6210a3258a94ab29cb2ea82b1812, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DefaultPPU: 8
+  CurrentPPU:
+    value: 8
+    Time: 0.3
+    Ease: 9
+  ShakeTime: 0.5
+  ShakeInterval: 0.1
+  ShakeAmount: 2
+  ShakeIntervalCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 3.2514486
+      outSlope: 3.2514486
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.024390243
+    - serializedVersion: 3
+      time: 1
+      value: 2
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  ShakeIntensityCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  PixelCamera: {fileID: 7035458977030781622}
 --- !u!20 &2377752557823043164
 Camera:
   m_ObjectHideFlags: 0
@@ -95,14 +166,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!81 &2377752557823043155
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2377752557823043154}
-  m_Enabled: 1
 --- !u!114 &7035458977030781622
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -123,3 +186,48 @@ MonoBehaviour:
   m_CropFrameX: 0
   m_CropFrameY: 0
   m_StretchFill: 0
+--- !u!81 &2377752557823043155
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2377752557823043154}
+  m_Enabled: 1
+--- !u!114 &1401620598884180399
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2377752557823043154}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2458933140c54c9db0aec7a69c1b617, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _developerDescription: Uses "will die" since that triggers before animation
+  _unityEventResponse:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1670337941166956163}
+        m_MethodName: Shake
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  _actionResponses: []
+  _replayEventBufferOnRegister: 1
+  _eventReference:
+    _usage: 0
+    _event: {fileID: 11400000, guid: 60453802695b78b459657a742b46022b, type: 2}
+    _eventInstancer: {fileID: 0}
+    _collection: {fileID: 0}
+    _list: {fileID: 0}
+    _collectionInstancer: {fileID: 0}
+    _listInstancer: {fileID: 0}

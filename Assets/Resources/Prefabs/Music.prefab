@@ -646,6 +646,7 @@ GameObject:
   - component: {fileID: 5614461296455424157}
   - component: {fileID: 5614461296455424156}
   - component: {fileID: 3611890329639589349}
+  - component: {fileID: 577559392681754568}
   m_Layer: 0
   m_Name: Music
   m_TagString: Untagged
@@ -723,6 +724,40 @@ MonoBehaviour:
   - {fileID: 8300000, guid: d092287a87b44a343a6007ac70a2738d, type: 3}
   - {fileID: 8300000, guid: d092287a87b44a343a6007ac70a2738d, type: 3}
   - {fileID: 8300000, guid: d092287a87b44a343a6007ac70a2738d, type: 3}
+  DeathRepeatCount: 8
+  DeathRepeatIntervalByCount:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.05
+      inSlope: 0
+      outSlope: -0.035
+      tangentMode: 69
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 0.015
+      inSlope: -0.035
+      outSlope: -0.0000085588545
+      tangentMode: 5
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 5
+      value: 0.1
+      inSlope: 0.051769357
+      outSlope: 0.051769357
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.02540655
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   PaddleAxisInput: {fileID: 11400000, guid: 74e604bb5c74283469bf638b29609375, type: 2}
   PaddleFalloff:
     serializedVersion: 2
@@ -770,7 +805,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2458933140c54c9db0aec7a69c1b617, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _developerDescription: 
+  _developerDescription: Normal ball chord player
   _unityEventResponse:
     m_PersistentCalls:
       m_Calls:
@@ -790,6 +825,43 @@ MonoBehaviour:
   _eventReference:
     _usage: 0
     _event: {fileID: 11400000, guid: 6bcd6fd7b36e01447b2a4736b875afb7, type: 2}
+    _eventInstancer: {fileID: 0}
+    _collection: {fileID: 0}
+    _list: {fileID: 0}
+    _collectionInstancer: {fileID: 0}
+    _listInstancer: {fileID: 0}
+--- !u!114 &577559392681754568
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5614461296455424146}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2458933140c54c9db0aec7a69c1b617, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _developerDescription: Death chord player
+  _unityEventResponse:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5614461296455424156}
+        m_MethodName: OnDeath
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  _actionResponses: []
+  _replayEventBufferOnRegister: 1
+  _eventReference:
+    _usage: 0
+    _event: {fileID: 11400000, guid: 60453802695b78b459657a742b46022b, type: 2}
     _eventInstancer: {fileID: 0}
     _collection: {fileID: 0}
     _list: {fileID: 0}

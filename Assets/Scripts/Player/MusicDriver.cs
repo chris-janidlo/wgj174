@@ -13,6 +13,8 @@ namespace Drepanoid
         public int BPM;
         public List<AudioSource> BallChordPlayers;
         public List<AudioClip> ChordToPlayByCurrentBar;
+        public int DeathRepeatCount;
+        public AnimationCurve DeathRepeatIntervalByCount;
 
         [Header("Paddle")]
         public FloatVariable PaddleAxisInput;
@@ -23,6 +25,8 @@ namespace Drepanoid
 
         float paddleTimer;
         int ballChordPlayerLooper;
+
+        IEnumerator deathEnum;
 
         void Awake ()
         {
@@ -41,6 +45,17 @@ namespace Drepanoid
 
         public void OnBallDidCollide ()
         {
+            playBallChord();
+        }
+
+        public void OnDeath ()
+        {
+            if (deathEnum != null) StopCoroutine(deathEnum);
+            StartCoroutine(deathEnum = deathRoutine());
+        }
+
+        void playBallChord ()
+        {
             BallChordPlayers[ballChordPlayerLooper].PlayOneShot(ChordToPlayByCurrentBar[currentBar]);
             ballChordPlayerLooper = (ballChordPlayerLooper + 1) % BallChordPlayers.Count;
         }
@@ -57,6 +72,15 @@ namespace Drepanoid
             }
 
             PaddleSource.volume = PaddleFalloff.Evaluate(paddleTimer);
+        }
+
+        IEnumerator deathRoutine ()
+        {
+            for (int i = 0; i < DeathRepeatCount; i++)
+            {
+                yield return new WaitForSeconds(DeathRepeatIntervalByCount.Evaluate(i));
+                playBallChord();
+            }
         }
     }
 }
