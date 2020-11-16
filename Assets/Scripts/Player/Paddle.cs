@@ -36,23 +36,24 @@ namespace Drepanoid
             get => _anchor;
             set
             {
-                RangeOfMotionIndicator.transform.parent = transform;
-                RangeOfMotionIndicator.transform.position = Vector3.zero;
-
                 _anchor = value;
                 transform.position = value;
 
                 drawRangeOfMotionIndicator();
-                RangeOfMotionIndicator.transform.parent = null;
             }
         }
 
         public Vector3 LeftExtent => Anchor + Vector3.left * RangeOfMotion;
         public Vector3 RightExtent => Anchor + Vector3.right * RangeOfMotion;
 
+        Vector3 romiOffset;
+
         void Start ()
         {
+            romiOffset = RangeOfMotionIndicator.transform.localPosition;
+
             RangeOfMotionIndicator.transform.parent = null;
+            RangeOfMotionIndicator.transform.position = Vector3.zero;
 
             Anchor = transform.position;
         }
@@ -115,7 +116,7 @@ namespace Drepanoid
         void drawRangeOfMotionIndicator ()
         {
             RangeOfMotionIndicator.positionCount = 2;
-            RangeOfMotionIndicator.SetPositions(new Vector3[] { LeftExtent, RightExtent });
+            RangeOfMotionIndicator.SetPositions(new Vector3[] { romiOffset + LeftExtent, romiOffset + RightExtent });
         }
 
         Vector2 deflectionVectorByAngle (float angle)
